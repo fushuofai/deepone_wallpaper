@@ -1,0 +1,446 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ========== Header ========== */
+
+header {
+  text-align: center;
+  padding: 50px 0 10px;
+}
+
+header h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: #1d1d1f;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: #86868b;
+  font-size: 1.05em;
+}
+
+/* ========== 搜索框居中 ========== */
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 30px auto 36px;
+  max-width: 520px;
+}
+
+.search-section .search-box {
+  display: flex;
+  width: 100%;
+  gap: 0;
+  border: 1.5px solid #d2d2d7;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-section .search-box:focus-within {
+  border-color: #0071e3;
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+}
+
+.search-section .search-box input {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  color: #1d1d1f;
+  font-size: 1em;
+  outline: none;
+}
+
+.search-section .search-box input::placeholder {
+  color: #a1a1a6;
+}
+
+.search-section .search-box .btn-search {
+  padding: 12px 22px;
+  border: none;
+  background: #0071e3;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.search-section .search-box .btn-search:hover {
+  background: #0077ed;
+}
+
+.btn-create {
+  padding: 10px 28px;
+  border: 1.5px solid #0071e3;
+  border-radius: 10px;
+  background: transparent;
+  color: #0071e3;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-create:hover {
+  background: #0071e3;
+  color: #fff;
+}
+
+/* ========== Character Grid ========== */
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 18px;
+  padding-bottom: 50px;
+}
+
+.character-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  border: 1px solid #e8e8ed;
+}
+
+.character-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.character-card .avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+  border: 2px solid #e8e8ed;
+}
+
+.character-card .name {
+  font-size: 0.95em;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.character-card .delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 59, 48, 0.85);
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  line-height: 1;
+}
+
+.character-card .delete-btn:hover {
+  background: #ff3b30;
+}
+
+.character-card:hover .delete-btn {
+  display: flex;
+}
+
+/* ========== Wallpaper Grid ========== */
+
+.wallpaper-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding-bottom: 50px;
+}
+
+.wallpaper-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #e8e8ed;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.wallpaper-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.wallpaper-card .wp-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  background: #f0f0f2;
+}
+
+.wallpaper-card .wp-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.wallpaper-card .wp-id {
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #0071e3;
+}
+
+.wallpaper-card .delete-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 59, 48, 0.85);
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  line-height: 1;
+}
+
+.wallpaper-card .delete-btn:hover {
+  background: #ff3b30;
+}
+
+.wallpaper-card:hover .delete-btn {
+  display: flex;
+}
+
+/* ========== Character page header ========== */
+
+.page-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 30px 0 10px;
+  flex-wrap: wrap;
+}
+
+.back-link {
+  color: #0071e3;
+  text-decoration: none;
+  font-size: 0.95em;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.back-link:hover {
+  background: rgba(0, 113, 227, 0.08);
+}
+
+.char-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 0 26px;
+}
+
+.char-header .char-avatar-large {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e8e8ed;
+}
+
+.char-header h1 {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #1d1d1f;
+}
+
+/* ========== Modal ========== */
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 18px;
+  padding: 32px;
+  width: 90%;
+  max-width: 420px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.modal-content h3 {
+  margin-bottom: 22px;
+  color: #1d1d1f;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 24px;
+  color: #86868b;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.close:hover {
+  color: #1d1d1f;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #6e6e73;
+  font-size: 0.88em;
+  font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #d2d2d7;
+  border-radius: 10px;
+  background: #fafafa;
+  color: #1d1d1f;
+  font-size: 0.95em;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus {
+  border-color: #0071e3;
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
+}
+
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 6px 0;
+  color: #6e6e73;
+  font-size: 0.9em;
+}
+
+/* Modal buttons */
+.modal-content .btn-confirm {
+  width: 100%;
+  padding: 11px 0;
+  border: none;
+  border-radius: 10px;
+  background: #0071e3;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 500;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+
+.modal-content .btn-confirm:hover {
+  background: #0077ed;
+}
+
+/* ========== Loading / Empty ========== */
+
+.loading, .empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: #86868b;
+  font-size: 1em;
+  grid-column: 1 / -1;
+}
+
+/* ========== Toast ========== */
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.9em;
+  font-weight: 500;
+  z-index: 2000;
+  animation: slideIn 0.3s ease;
+  max-width: 360px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.toast.success { background: #34c759; }
+.toast.error { background: #ff3b30; }
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* ========== Responsive ========== */
+
+@media (max-width: 600px) {
+  header h1 { font-size: 1.6em; }
+  .character-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 14px; }
+  .wallpaper-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .search-section { margin: 20px auto 26px; }
+  .char-header { flex-wrap: wrap; }
+}
