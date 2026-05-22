@@ -15,44 +15,13 @@
 
     <div class="search-section">
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="搜索角色名称..." oninput="searchCharacters()">
-        <button onclick="searchCharacters()" class="btn-search">搜索</button>
+        <input type="text" id="searchInput" placeholder="🔍 搜索角色名称或壁纸编号..." oninput="handleSearch()">
+        <button onclick="handleSearch()" class="btn-search">搜索</button>
       </div>
-      <button onclick="showAdminModal('character')" class="btn-create">+ 新建角色</button>
     </div>
 
     <div id="characterGrid" class="character-grid">
       <div class="loading">加载中...</div>
-    </div>
-  </div>
-
-  <!-- 管理员密码弹窗 -->
-  <div id="adminModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('adminModal')">&times;</span>
-      <h3 id="modalTitle">管理员验证</h3>
-      <div class="form-group">
-        <label>请输入管理员密码</label>
-        <input type="password" id="adminPassword" placeholder="输入密码">
-      </div>
-      <button onclick="confirmAdmin()" class="btn-confirm">确认</button>
-    </div>
-  </div>
-
-  <!-- 新建角色弹窗 -->
-  <div id="characterModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('characterModal')">&times;</span>
-      <h3>新建角色</h3>
-      <div class="form-group">
-        <label>角色名称</label>
-        <input type="text" id="characterName" placeholder="请输入角色名称">
-      </div>
-      <div class="form-group">
-        <label>角色头像</label>
-        <input type="file" id="characterAvatar" accept="image/*">
-      </div>
-      <button onclick="createCharacter()" class="btn-confirm">创建</button>
     </div>
   </div>
 
