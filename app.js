@@ -21,7 +21,7 @@ function getCharFolder(id) {
 
 function getCharAvatarPath(charId) {
   const f = getCharFolder(charId);
-  return `10/${f}/10${f}17.png`;
+  return `10/${f}/10${f}16.png`;
 }
 
 function getWallpaperImagePath(wallpaperId, ext) {
