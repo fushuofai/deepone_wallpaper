@@ -2,17 +2,28 @@
 
 async function loadJSON(path) {
   const res = await fetch(path);
+  if (!res.ok) throw new Error(`加载 ${path} 失败 (${res.status})`);
   return res.json();
 }
 
 async function getCharacters() {
-  const data = await loadJSON('def/character.json');
-  return Array.isArray(data) ? data : [data];
+  try {
+    const data = await loadJSON('def/character.json');
+    return Array.isArray(data) ? data : [data];
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
 }
 
 async function getWallpapers() {
-  const data = await loadJSON('def/wallpaper.json');
-  return data.wallpaper_list || [];
+  try {
+    const data = await loadJSON('def/wallpaper.json');
+    return data.wallpaper_list || [];
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
 }
 
 function getCharFolder(id) {
