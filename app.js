@@ -214,6 +214,28 @@ function tryWallpaperExt(img) {
   }
 }
 
+// ============ 文件下载（解决手机 .lpk 变 .zip 的问题） ============
+
+async function downloadFile(url) {
+  try {
+    const filename = url.split('/').pop() || 'download';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('下载失败');
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+  } catch (e) {
+    // fallback: 如果 CORS 限制导致 blob 下载失败，直接开新窗口
+    window.open(url, '_blank');
+  }
+}
+
 // ============ 事件处理 ============
 
 document.addEventListener('click', e => {
@@ -230,7 +252,7 @@ document.addEventListener('click', e => {
     const link = img.dataset.link;
     const id = img.dataset.id;
     if (link && link !== 'None') {
-      window.open(link, '_blank');
+      downloadFile(link);
     } else {
       toast(`壁纸 #${id}：管理员还未导入壁纸`, 'info');
     }
