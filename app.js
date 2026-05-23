@@ -30,9 +30,9 @@ function getCharFolder(id) {
   return String(id).padStart(2, '0');
 }
 
-function getCharAvatarPath(charId) {
+function getCharAvatarPath(charId, suffix = '05') {
   const f = getCharFolder(charId);
-  return `10/${f}/10${f}16.png`;
+  return `10/${f}/10${f}${suffix}.png`;
 }
 
 function getWallpaperImagePath(wallpaperId, ext) {
@@ -42,6 +42,16 @@ function getWallpaperImagePath(wallpaperId, ext) {
 
 function getCharIdFromWallpaperId(wallpaperId) {
   return parseInt(wallpaperId.substring(2, 4), 10);
+}
+
+function avatarError(img) {
+  if (!img.dataset.avatarTried) {
+    img.dataset.avatarTried = '05';
+    img.src = getCharAvatarPath(parseInt(img.dataset.charId), '04');
+  } else if (img.dataset.avatarTried === '05') {
+    img.dataset.avatarTried = '04';
+    img.src = 'default-avatar.svg';
+  }
 }
 
 function esc(str) {
@@ -109,7 +119,7 @@ function renderCharacters(characters) {
   }
   grid.innerHTML = characters.map(c => `
     <div class="character-card" data-id="${c.id}">
-      <img class="avatar" src="${getCharAvatarPath(c.id)}" alt="${esc(c.name)}" onerror="this.src='default-avatar.svg'">
+      <img class="avatar" src="${getCharAvatarPath(c.id)}" alt="${esc(c.name)}" data-char-id="${c.id}" onerror="avatarError(this)">
       <div class="name">${esc(c.name)}</div>
     </div>
   `).join('');
