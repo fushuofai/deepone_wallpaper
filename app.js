@@ -30,9 +30,9 @@ function getCharFolder(id) {
   return String(id).padStart(2, '0');
 }
 
-function getCharAvatarPath(charId, suffix = '05') {
+function getCharAvatarPath(series, charId, suffix = '05') {
   const f = getCharFolder(charId);
-  return `10/${f}/10${f}${suffix}.png`;
+  return `${series}/${f}/${series}${f}${suffix}.png`;
 }
 
 function getWallpaperImagePath(wallpaperId, ext) {
@@ -48,7 +48,8 @@ function getCharIdFromWallpaperId(wallpaperId) {
 function avatarError(img) {
   if (!img.dataset.avatarTried) {
     img.dataset.avatarTried = '05';
-    img.src = getCharAvatarPath(parseInt(img.dataset.charId), '04');
+    const series = parseInt(img.closest('.character-card')?.dataset.series) || 10;
+    img.src = getCharAvatarPath(series, parseInt(img.dataset.charId), '04');
   } else if (img.dataset.avatarTried === '05') {
     img.dataset.avatarTried = '04';
     img.src = 'default-avatar.svg';
@@ -89,12 +90,13 @@ function handleSearch() {
     return;
   }
 
-  // 检查是否是壁纸编号搜索（6位数字，以10开头）
-  if (/^10\d{4}$/.test(kw)) {
+  // 检查是否是壁纸编号搜索（6-7位数字）
+  if (/^\d{6,7}$/.test(kw)) {
     const charId = getCharIdFromWallpaperId(kw);
-    const char = allCharacters.find(c => c.id === charId);
+    const series = parseInt(`1${kw[1]}`);
+    const char = allCharacters.find(c => c.id === charId && (c.series || 10) === series);
     if (char) {
-      window.location.href = `character.html?id=${char.id}&search=${kw}`;
+      window.location.href = `character.html?series=${char.series || 10}&id=${char.id}&search=${kw}`;
       return;
     }
     toast('未找到该壁纸对应的角色', 'error');
@@ -119,8 +121,8 @@ function renderCharacters(characters) {
     return;
   }
   grid.innerHTML = characters.map(c => `
-    <div class="character-card" data-id="${c.id}">
-      <img class="avatar" src="${getCharAvatarPath(c.id)}" alt="${esc(c.name)}" data-char-id="${c.id}" onerror="avatarError(this)">
+    <div class="character-card" data-id="${c.id}" data-series="${c.series || 10}">
+      <img class="avatar" src="${getCharAvatarPath(c.series || 10, c.id)}" alt="${esc(c.name)}" data-char-id="${c.id}" onerror="avatarError(this)">
       <div class="name">${esc(c.name)}</div>
     </div>
   `).join('');
@@ -129,21 +131,23 @@ function renderCharacters(characters) {
 // ============ 壁纸页面 ============
 
 let currentCharId = null;
+let currentSeries = 10;
 
 async function initCharacterPage() {
   const params = new URLSearchParams(window.location.search);
   currentCharId = params.get('id');
+  currentSeries = parseInt(params.get('series')) || 10;
   if (!currentCharId) {
     document.getElementById('charName').textContent = '无效的角色';
     return;
   }
 
   const characters = await getCharacters();
-  const char = characters.find(c => String(c.id) === currentCharId);
+  const char = characters.find(c => String(c.id) === currentCharId && (c.series || 10) === currentSeries);
   if (char) {
     document.getElementById('charName').textContent = char.name;
     const avatarEl = document.getElementById('charAvatar');
-    avatarEl.src = getCharAvatarPath(char.id);
+    avatarEl.src = getCharAvatarPath(currentSeries, char.id);
     avatarEl.onerror = () => { avatarEl.src = 'default-avatar.svg'; };
   } else {
     document.getElementById('charName').textContent = '角色不存在';
@@ -162,7 +166,10 @@ async function initCharacterPage() {
 async function loadWallpapers() {
   allWallpapers = await getWallpapers();
   const f = getCharFolder(parseInt(currentCharId));
-  const charWallpapers = allWallpapers.filter(w => w.wallpaper_id.substring(2, 4) === f);
+  const seriesStr = String(currentSeries);
+  const charWallpapers = allWallpapers.filter(w =>
+    `1${w.wallpaper_id[1]}` === seriesStr && w.wallpaper_id.substring(2, 4) === f
+  );
   renderWallpapers(charWallpapers);
 }
 
@@ -182,7 +189,10 @@ function searchWallpapers() {
   }
 
   const f = getCharFolder(parseInt(currentCharId));
-  let filtered = all.filter(w => w.wallpaper_id.substring(2, 4) === f);
+  const seriesStr = String(currentSeries);
+  let filtered = all.filter(w =>
+    `1${w.wallpaper_id[1]}` === seriesStr && w.wallpaper_id.substring(2, 4) === f
+  );
   if (kw) {
     filtered = filtered.filter(w => w.wallpaper_id.toLowerCase().includes(kw));
   }
@@ -254,7 +264,7 @@ document.addEventListener('click', e => {
   // 点击角色卡片
   const card = e.target.closest('.character-card');
   if (card) {
-    window.location.href = `character.html?id=${card.dataset.id}`;
+    window.location.href = `character.html?series=${card.dataset.series || 10}&id=${card.dataset.id}`;
     return;
   }
 
