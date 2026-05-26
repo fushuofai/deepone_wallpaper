@@ -37,7 +37,8 @@ function getCharAvatarPath(charId, suffix = '05') {
 
 function getWallpaperImagePath(wallpaperId, ext) {
   const f = wallpaperId.substring(2, 4);
-  return `10/${f}/${wallpaperId}.${ext}`;
+  const series = `1${wallpaperId[1]}`;
+  return `${series}/${f}/${wallpaperId}.${ext}`;
 }
 
 function getCharIdFromWallpaperId(wallpaperId) {
@@ -216,7 +217,8 @@ function tryWallpaperExt(img) {
   const f = id.substring(2, 4);
   if (!img.dataset.tried) {
     img.dataset.tried = 'png';
-    img.src = `10/${f}/${id}.jpg`;
+    const series = `1${id[1]}`;
+    img.src = `${series}/${f}/${id}.jpg`;
   } else if (img.dataset.tried === 'png') {
     img.dataset.tried = 'jpg';
     img.src = `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 9%22><rect fill=%22%23e8e8ed%22 width=%2216%22 height=%229%22/></svg>`;
