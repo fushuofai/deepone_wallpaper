@@ -492,6 +492,32 @@ header h1 {
   font-size: 1em;
 }
 
+/* ========== 使用提示横幅 ========== */
+
+.notice-banner {
+  text-align: center;
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  padding: 10px 16px;
+  margin: 12px auto 0;
+  border-radius: 10px;
+  font-size: 0.9em;
+  font-weight: 500;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.notice-banner a {
+  color: #0071e3;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.notice-banner a:hover {
+  color: #0056b3;
+}
+
 /* ========== Responsive ========== */
 
 @media (max-width: 600px) {
