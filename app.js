@@ -167,9 +167,12 @@ async function loadWallpapers() {
   allWallpapers = await getWallpapers();
   const f = getCharFolder(parseInt(currentCharId));
   const seriesStr = String(currentSeries);
-  const charWallpapers = allWallpapers.filter(w =>
-    `1${w.wallpaper_id[1]}` === seriesStr && w.wallpaper_id.substring(2, 4) === f
-  );
+  const charWallpapers = allWallpapers.filter(w => {
+    if (`1${w.wallpaper_id[1]}` !== seriesStr) return false;
+    // 外传角色(series=19, id=1)显示所有 19 系列壁纸
+    if (currentSeries === 19 && currentCharId === '1') return true;
+    return w.wallpaper_id.substring(2, 4) === f;
+  });
   renderWallpapers(charWallpapers);
 }
 
@@ -190,9 +193,12 @@ function searchWallpapers() {
 
   const f = getCharFolder(parseInt(currentCharId));
   const seriesStr = String(currentSeries);
-  let filtered = all.filter(w =>
-    `1${w.wallpaper_id[1]}` === seriesStr && w.wallpaper_id.substring(2, 4) === f
-  );
+  let filtered = all.filter(w => {
+    if (`1${w.wallpaper_id[1]}` !== seriesStr) return false;
+    // 外传角色(series=19, id=1)显示所有 19 系列壁纸
+    if (currentSeries === 19 && currentCharId === '1') return true;
+    return w.wallpaper_id.substring(2, 4) === f;
+  });
   if (kw) {
     filtered = filtered.filter(w => w.wallpaper_id.toLowerCase().includes(kw));
   }
